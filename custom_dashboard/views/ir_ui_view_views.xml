@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_view_custom_tree_inherited" model="ir.ui.view">
+        <field name="model">ir.ui.view.custom</field>
+        <field name="inherit_id" ref="base.view_view_custom_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="user_ids"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
