@@ -13,7 +13,7 @@ class Board(main.Board):
     def add_to_deaprtment_dashboard(self, action_id, context_to_save, domain, view_mode, name=''):
         # Retrieve the 'My Dashboard' action from its xmlid
         action = request.env.ref('custom_dashboard.open_custom_dashboard_dash_action').sudo()
-        team_member_id = self.env['res.users'].search([('user_id','=', self.env.uid)]).id
+        # team_member_id = self.env['res.users'].search([('user_id','=', self.env.uid)]).id
         
         if action and action['res_model'] == 'board.board' and action['views'][0][1] == 'form' and action_id:
             # Maybe should check the content instead of model board.board ?
@@ -38,7 +38,7 @@ class Board(main.Board):
                     arch = ElementTree.tostring(board_arch, encoding='unicode')
                     request.env['ir.ui.view.custom'].sudo().create({
                         'user_id': request.session.uid,
-                        'user_ids': [(6, 0, [team_member_id])],
+                        'user_ids': [(6, 0, [6])],
                         'ref_id': view_id,
                         'arch': arch
                     })
