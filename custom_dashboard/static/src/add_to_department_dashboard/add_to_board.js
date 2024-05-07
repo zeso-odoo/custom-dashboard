@@ -67,4 +67,3 @@ patch(AddToBoard.prototype,{
     },
     
 });
-

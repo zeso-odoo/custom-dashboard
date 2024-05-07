@@ -18,7 +18,7 @@ class Board(main.Board):
         if action and action['res_model'] == 'board.board' and action['views'][0][1] == 'form' and action_id:
             # Maybe should check the content instead of model board.board ?
             view_id = action['views'][0][0]
-            board_view = request.env['board.board'].get_view(view_id, 'form')
+            board_view = request.env['ir.ui.view.custom'].get_view(view_id, 'form')
             if board_view and 'arch' in board_view:
                 board_arch = ElementTree.fromstring(board_view['arch'])
                 column = board_arch.find('./board/column')
@@ -36,9 +36,20 @@ class Board(main.Board):
                     })
                     column.insert(0, new_action)
                     arch = ElementTree.tostring(board_arch, encoding='unicode')
+
+                    team_leader_id = request.env.uid
+                    sales_teams = request.env['crm.team'].search([('user_id', '=', team_leader_id)])
+                    print('sales team : ',sales_teams)
+                    user_list = set()
+                    for i in sales_teams:
+                        for j in i.member_ids.ids:
+                            user_list.add(j)
+                    user_list = list(user_list)
+                    print(user_list, 'testingggggggggggg')
+                    
                     request.env['ir.ui.view.custom'].sudo().create({
                         'user_id': request.session.uid,
-                        'user_ids': [(6, 0, [6])],
+                        'user_ids': [(6, 0, user_list)],
                         'ref_id': view_id,
                         'arch': arch
                     })

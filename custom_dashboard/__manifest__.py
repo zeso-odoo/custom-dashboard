@@ -27,4 +27,3 @@
     'application':True,
     'license': 'LGPL-3',
 }
-# ./odoo-bin --addons-path=addons,../enterprise/,../custom-dashboard/ -d rd-dashboard4 -u custom_dashboard
