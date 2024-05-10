@@ -2,18 +2,23 @@
 import { _t } from "@web/core/l10n/translation";
 import { AddToBoard } from "@board/add_to_board/add_to_board";
 import { patch } from "@web/core/utils/patch";
-
-
+import { useAutofocus,useService } from "@web/core/utils/hooks";
+import { useState } from "@odoo/owl";
 patch(AddToBoard.prototype,{
-    setUp(){
-        super.setUp(...arguments)
+    setup(){
+        super.setup(...arguments)
+        this.state = useState({
+            name: this.env.config.getDisplayName(),
+            activeTab: this.intialActiveTab,
+        });
         this.notification = useService("notification");
         this.rpc = useService("rpc");
-        this.state = useState({ name: this.env.config.getDisplayName() });
-
         useAutofocus();
     },
-    addToDepartmentBoard(){
+    get intialActiveTab(){
+        return this.env.services.user.isAdmin;
+    },
+    addToDepartmentBoard(){ 
         const { domain, globalContext } = this.env.searchModel;
         const { context, groupBys, orderBy } = this.env.searchModel.getPreFavoriteValues();
         const comparison = this.env.searchModel.comparison;

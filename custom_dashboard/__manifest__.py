@@ -18,7 +18,6 @@
     ],
     'assets':{
         'web.assets_backend': [
-            # 'board/static/src/**/*.scss',
             'custom_dashboard/static/src/**/*.js',
             'custom_dashboard/static/src/**/*.xml',
         ],

@@ -37,16 +37,8 @@ class Board(main.Board):
                     column.insert(0, new_action)
                     arch = ElementTree.tostring(board_arch, encoding='unicode')
 
-                    team_leader_id = request.env.uid
-                    sales_teams = request.env['crm.team'].search([('user_id', '=', team_leader_id)])
-                    print('sales team : ',sales_teams)
-                    user_list = set()
-                    for i in sales_teams:
-                        for j in i.member_ids.ids:
-                            user_list.add(j)
-                    user_list = list(user_list)
-                    print(user_list, 'testingggggggggggg')
-                    
+                    user_list = request.env['crm.team'].search([('user_id', '=', request.env.uid)]).mapped('member_ids').ids
+
                     request.env['ir.ui.view.custom'].sudo().create({
                         'user_id': request.session.uid,
                         'user_ids': [(6, 0, user_list)],
